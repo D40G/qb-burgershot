@@ -1,5 +1,5 @@
 -- NH - Context --
-RegisterNetEvent('nh-context:Burgers', function(data)
+RegisterNetEvent('qb-burgershot:Burgers', function(data)
     exports['qb-menu']:openMenu({
         {
             header = "| Available Burgers |",
@@ -63,7 +63,7 @@ RegisterNetEvent('nh-context:Burgers', function(data)
 end)
 
 
-RegisterNetEvent('nh-context:OrderMenu', function(data)
+RegisterNetEvent('qb-burgershot:OrderMenu', function(data)
     exports['qb-menu']:openMenu({
         {
             header = "| Fridge |",
@@ -92,7 +92,7 @@ RegisterNetEvent('nh-context:OrderMenu', function(data)
     })
 end)
 
-RegisterNetEvent('nh-context:DrinkMenu', function(data)
+RegisterNetEvent('qb-burgershot:DrinkMenu', function(data)
     exports['qb-menu']:openMenu({
         {
             header = "| Drink Menu |",

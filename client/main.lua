@@ -95,7 +95,7 @@ CreateThread(function()
                             if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
                                 QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Make Drinks")
                                 if IsControlJustReleased(0, 38) then
-                                    TriggerEvent("nh-context:DrinkMenu")
+                                    TriggerEvent("qb-burgershot:DrinkMenu")
                                 end
                             elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
                                 QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Make Drinks")
@@ -112,7 +112,7 @@ CreateThread(function()
                             if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
                                 QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Open Fridge")
                                 if IsControlJustReleased(0, 38) then
-                                    TriggerEvent("nh-context:OrderMenu")
+                                    TriggerEvent("qb-burgershot:OrderMenu")
                                 end
                             elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
                                 QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Open Fridge")
@@ -146,7 +146,7 @@ CreateThread(function()
                             if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
                                 QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Make a Meal")
                                 if IsControlJustReleased(0, 38) then
-                                    TriggerEvent("nh-context:Burgers")
+                                    TriggerEvent("qb-burgershot:Burgers")
                                 end
                             elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
                                 QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Make a Meal")
@@ -477,6 +477,7 @@ RegisterNetEvent("qb-burgershot:Drink", function(type)
                         disableMouse = false,
                         disableCombat = false,
                     }, {}, {}, {}, function()
+                        ClearPedTasks(PlayerPedId())
                         TriggerServerEvent('QBCore:Server:RemoveItem', "burger-sodasyrup", 1)
                         TriggerServerEvent('QBCore:Server:AddItem', "burger-softdrink", 1)
                         TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["burger-softdrink"], "add")
@@ -530,7 +531,7 @@ AddEventHandler("qb-burgershot:Fries", function()
                     bone = 28422,
                     coords = vector3(-0.005, 0.00, 0.00),
                     rotation = vector3(175.0, 160.0, 0.0),
-                }, function()
+                }, {}, function()
                     ClearPedTasks(PlayerPedId())
                     TriggerServerEvent('QBCore:Server:AddItem', "burger-fries", 4)
                     TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["burger-fries"], "add")
