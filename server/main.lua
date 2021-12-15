@@ -1,24 +1,44 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterServerEvent("qb-burgershot:bill:player", function(playerId, amount)
+RegisterServerEvent("qb-burgershot:bill:player", function(playerId, amount, type)
     local biller = QBCore.Functions.GetPlayer(source)
     local billed = QBCore.Functions.GetPlayer(tonumber(playerId))
     local amount = tonumber(amount)
     if biller.PlayerData.job.name == 'burgershot' then
         if billed ~= nil then
             if biller.PlayerData.citizenid ~= billed.PlayerData.citizenid then
-                if amount and amount > 0 then
-                    exports.oxmysql:insert('INSERT INTO phone_invoices (citizenid, amount, society, sender) VALUES (:citizenid, :amount, :society, :sender)', {
-                        ['citizenid'] = billed.PlayerData.citizenid,
-                        ['amount'] = amount,
-                        ['society'] = biller.PlayerData.job.name,
-                        ['sender'] = biller.PlayerData.charinfo.firstname
-                    })
-                    TriggerClientEvent('qb-phone:RefreshPhone', billed.PlayerData.source)
-                    TriggerClientEvent('QBCore:Notify', source, 'Invoice Successfully Sent', 'success')
-                    TriggerClientEvent('QBCore:Notify', billed.PlayerData.source, 'New Invoice Received')
-                else
-                    TriggerClientEvent('QBCore:Notify', source, 'Must Be A Valid Amount Above 0', 'error')
+                if type == "bill" then
+                    if amount and amount > 0 then
+                        exports.oxmysql:insert('INSERT INTO phone_invoices (citizenid, amount, society, sender) VALUES (:citizenid, :amount, :society, :sender)', {
+                            ['citizenid'] = billed.PlayerData.citizenid,
+                            ['amount'] = amount,
+                            ['society'] = biller.PlayerData.job.name,
+                            ['sender'] = biller.PlayerData.charinfo.firstname
+                        })
+                        TriggerClientEvent('qb-phone:RefreshPhone', billed.PlayerData.source)
+                        TriggerClientEvent('QBCore:Notify', source, 'Invoice Successfully Sent', 'success')
+                        TriggerClientEvent('QBCore:Notify', billed.PlayerData.source, 'New Invoice Received')
+                    else
+                        TriggerClientEvent('QBCore:Notify', source, 'Must Be A Valid Amount Above 0', 'error')
+                    end
+                elseif type == "cash" then
+                    local cash = billed.PlayerData.money['cash']
+                    if cash >= amount then
+                        billed.Functions.RemoveMoney("cash", amount)
+                        TriggerEvent("qb-bossmenu:server:addAccountMoney", "burgershot", amount)
+                        TriggerClientEvent("QBCore:Notify", billed.PlayerData.source, "You were charged $"..amount.." for your order", "success")
+                    else
+                        TriggerClientEvent("QBCore:Notify", source, "Customer doesn't have enough cash...", "error")
+                    end
+                elseif type == "bank" then
+                    local bank = billed.PlayerData.money['bank']
+                    if bank >= amount then
+                        billed.Functions.RemoveMoney("bank", amount)
+                        TriggerEvent("qb-bossmenu:server:addAccountMoney", "burgershot", amount)
+                        TriggerClientEvent("QBCore:Notify", billed.PlayerData.source, "Your debit card was charged $"..amount.." for your order", "success")
+                    else
+                        TriggerClientEvent("QBCore:Notify", source, "Customer doesn't have enough on their debit card...", "error")
+                    end
                 end
             else
                 TriggerClientEvent('QBCore:Notify', source, 'You Cannot Bill Yourself', 'error')

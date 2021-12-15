@@ -142,14 +142,24 @@ AddEventHandler("qb-burgershot:bill", function()
                 name = "billprice",
                 type = "number",
                 isRequired = true
+            },
+            {
+                text = "Bill Type", -- text you want to be displayed as a input header
+                name = "billtype", -- name of the input should be unique otherwise it might override
+                type = "radio", -- type of the input - Radio is useful for "or" options e.g; billtype = Cash OR Bill OR bank
+                options = { -- The options (in this case for a radio) you want displayed, more than 6 is not recommended
+                    { value = "bill", text = "Bill" }, -- Options MUST include a value and a text option
+                    { value = "cash", text = "Cash" }, -- Options MUST include a value and a text option
+                    { value = "bank", text = "Bank" }  -- Options MUST include a value and a text option
+                }
             }
         }
     })
     if bill then
-        if not bill.playerid or not bill.billprice then
+        if not bill.playerid or not bill.billprice or not bill.billtype then
             return
         else
-            TriggerServerEvent("qb-burgershot:bill:player", bill.playerid, bill.billprice)
+            TriggerServerEvent("qb-burgershot:bill:player", bill.playerid, bill.billprice, bill.billtype)
         end
     end
 end)
