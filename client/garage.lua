@@ -4,7 +4,7 @@ PlayerData = {}
 
 RegisterNetEvent('qb-burgershot:garage', function(bs)
     local vehicle = bs.vehicle
-    local coords = vector4(-1172.861, -888.4072, 13.940833, 40.516719)
+    local coords = carCoords
     local PlayerData = QBCore.Functions.GetPlayerData()
     if PlayerData.job.name == "burgershot" then
         QBCore.Functions.SpawnVehicle(vehicle, function(veh)
@@ -28,7 +28,8 @@ RegisterNetEvent('qb-burgershot:storecar', function()
     QBCore.Functions.DeleteVehicle(car)
 end)
 
-RegisterNetEvent('garage:BurgerShotGarage', function()
+RegisterNetEvent('garage:BurgerShotGarage', function(coords)
+    carCoords = coords
     exports['qb-menu']:openMenu({
         {
             header = "BurgerShot Garage",

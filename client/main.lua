@@ -13,175 +13,139 @@ CreateThread(function()
             local pos = GetEntityCoords(PlayerPedId())
             if PlayerData.job.name == 'burgershot' then
                 for k, v in pairs(Config.Locations["duty"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 5 then
+                    if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
                         sleep = false
-                        DrawMarker(27, v.x, v.y, v.z-0.99, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.001, 1.0001, 0.5001, 0, 25, 165, 100, false, true, 2, false, false, false, false) 
-                        if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                            if PlayerData.job.onduty then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~r~E~w~ - Go off duty")
-                            else
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Go on duty")
-                            end
-                            if IsControlJustReleased(0, 38) then
-                                TriggerServerEvent("QBCore:ToggleDuty")
-                            end
-                        elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
-                            QBCore.Functions.DrawText3D(v.x, v.y, v.z, "on/off duty")
+                        if PlayerData.job.onduty then
+                            QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~r~E~w~ - Go off duty")
+                        else
+                            QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Go on duty")
                         end
+                        if IsControlJustReleased(0, 38) then
+                            TriggerServerEvent("QBCore:ToggleDuty")
+                        end
+                    elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Time Clock")
                     end
                 end
+            end
 
+            if PlayerData.job.name == 'burgershot' and PlayerData.job.onduty then
                 for k, v in pairs(Config.Locations["pattycooker"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 4.5 then
-                        if PlayerData.job.onduty then
-                            sleep = false
-                            DrawMarker(27, v.x, v.y, v.z-0.99, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.001, 1.0001, 0.5001, 0, 25, 165, 100, false, true, 2, false, false, false, false) 
-                            if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                                sleep = 5
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Cook Patties")
-                                if IsControlJustReleased(0, 38) then
-                                    TriggerEvent("qb-burgershot:PattyFry")
-                                end
-                            elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
-                                sleep = 5
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Cook Patties")
-                            end
+                    if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Cook Patties")
+                        if IsControlJustReleased(0, 38) then
+                            TriggerEvent("qb-burgershot:PattyFry")
                         end
+                    elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Grill")
                     end
                 end
 
                 for k, v in pairs(Config.Locations["fryer"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 4.5 then
-                        if PlayerData.job.onduty then
-                            sleep = false
-                            DrawMarker(27, v.x, v.y, v.z-0.99, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.001, 1.0001, 0.5001, 0, 25, 165, 100, false, true, 2, false, false, false, false) 
-                            if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Fry Sum Fries")
-                                if IsControlJustReleased(0, 38) then
-                                    TriggerEvent("qb-burgershot:Fries")
-                                end
-                            elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Fry Sum Fries")
-                            end
+                    if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Fry Sum Fries")
+                        if IsControlJustReleased(0, 38) then
+                            TriggerEvent("qb-burgershot:Fries")
                         end
+                    elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Fryer")
                     end
                 end
 
                 for k, v in pairs(Config.Locations["drinks"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 4.5 then
-                        if PlayerData.job.onduty then
-                            sleep = false
-                            DrawMarker(27, v.x, v.y, v.z-0.99, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.001, 1.0001, 0.5001, 0, 25, 165, 100, false, true, 2, false, false, false, false) 
-                            if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Make Drinks")
-                                if IsControlJustReleased(0, 38) then
-                                    TriggerEvent("qb-burgershot:DrinkMenu")
-                                end
-                            elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Make Drinks")
-                            end
+                    if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Make Drinks")
+                        if IsControlJustReleased(0, 38) then
+                            TriggerEvent("qb-burgershot:DrinkMenu")
                         end
+                    elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Soda Machine")
                     end
                 end
 
                 for k, v in pairs(Config.Locations["fridge"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 4.5 then
-                        if PlayerData.job.onduty then
-                            sleep = false
-                            DrawMarker(27, v.x, v.y, v.z-0.99, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.001, 1.0001, 0.5001, 0, 25, 165, 100, false, true, 2, false, false, false, false) 
-                            if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Open Fridge")
-                                if IsControlJustReleased(0, 38) then
-                                    TriggerEvent("qb-burgershot:OrderMenu")
-                                end
-                            elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Open Fridge")
-                            end
+                    if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Open Fridge")
+                        if IsControlJustReleased(0, 38) then
+                            TriggerEvent("qb-burgershot:OrderMenu")
                         end
+                    elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Open Fridge")
                     end
                 end
 
                 for k, v in pairs(Config.Locations["storage"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 4.5 then
-                        if PlayerData.job.onduty then
-                            sleep = false
-                            DrawMarker(27, v.x, v.y, v.z-0.99, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.001, 1.0001, 0.5001, 0, 25, 165, 100, false, true, 2, false, false, false, false) 
-                            if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Open Storage")
-                                if IsControlJustReleased(0, 38) then
-                                    TriggerEvent("qb-burgershot:Storage")
-                                end
-                            elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Open Storage")
-                            end
+                    if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Open Storage")
+                        if IsControlJustReleased(0, 38) then
+                            TriggerEvent("qb-burgershot:Storage")
                         end
+                    elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Storage")
                     end
                 end
 
                 for k, v in pairs(Config.Locations["craftburger"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 4.5 then
-                        if PlayerData.job.onduty then
-                            sleep = false
-                            DrawMarker(27, v.x, v.y, v.z-0.99, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.001, 1.0001, 0.5001, 0, 25, 165, 100, false, true, 2, false, false, false, false) 
-                            if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Make a Meal")
-                                if IsControlJustReleased(0, 38) then
-                                    TriggerEvent("qb-burgershot:Burgers")
-                                end
-                            elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Make a Meal")
-                            end
+                    if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Make a Meal")
+                        if IsControlJustReleased(0, 38) then
+                            TriggerEvent("qb-burgershot:Burgers")
                         end
+                    elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Meal Counter")
                     end
                 end
 
                 for k, v in pairs(Config.Locations["cashregister"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 4.5 then
-                        if PlayerData.job.onduty then
-                            sleep = false
-                            DrawMarker(27, v.x, v.y, v.z-0.99, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.001, 1.0001, 0.5001, 0, 25, 165, 100, false, true, 2, false, false, false, false) 
-                            if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Cash Register")
-                                if IsControlJustReleased(0, 38) then
-                                    TriggerEvent("qb-burgershot:bill")
-                                end
-                            elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Cash Register")
-                            end
+                    if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Cash Register")
+                        if IsControlJustReleased(0, 38) then
+                            TriggerEvent("qb-burgershot:bill")
                         end
+                    elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Register")
                     end
                 end
 
                 for k, v in pairs(Config.Locations["garage"]) do
-                    if #(pos - vector3(v.x, v.y, v.z)) < 4.5 then
-                        if PlayerData.job.onduty then
-                            sleep = false
-                            DrawMarker(27, v.x, v.y, v.z-0.99, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.001, 1.0001, 0.5001, 0, 25, 165, 100, false, true, 2, false, false, false, false) 
-                            if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Garage")
-                                if IsControlJustReleased(0, 38) then
-                                    TriggerEvent("garage:BurgerShotGarage")
-                                end
-                            elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
-                                QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Garage")
-                            end
+                    if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Garage")
+                        if IsControlJustReleased(0, 38) then
+                            TriggerEvent("garage:BurgerShotGarage", v)
                         end
+                    elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
+                        sleep = false
+                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Garage")
                     end
                 end
             end
 
             for k, v in pairs(Config.Locations["tray1"]) do
-                if #(pos - vector3(v.x, v.y, v.z)) < 4.5 then
+                if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
                     sleep = false
-                    DrawMarker(27, v.x, v.y, v.z-0.99, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.001, 1.0001, 0.5001, 0, 25, 165, 100, false, true, 2, false, false, false, false) 
-                    if #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
-                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Tray")
-                        if IsControlJustReleased(0, 38) then
-                            TriggerEvent("qb-burgershot:Tray")
-                        end
-                    elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
-                        QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Tray")
+                    QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~E~w~ -  Tray")
+                    if IsControlJustReleased(0, 38) then
+                        TriggerEvent("qb-burgershot:Tray")
                     end
+                elseif #(pos - vector3(v.x, v.y, v.z)) < 2.5 then
+                    sleep = false
+                    QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Tray")
                 end
             end
         end
